@@ -13,3 +13,7 @@ scrape_configs:
     static_configs:
       - targets: 
         - pushgateway:9091
+
+  - job_name: 'selenium_grid_exporter'
+    static_configs:
+      - targets: ['selenium-grid-exporter:8080']
