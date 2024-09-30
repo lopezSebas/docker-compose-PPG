@@ -143,7 +143,7 @@ services:
     image: lopezsebas/selenium-grid-exporter:latest
     container_name: seleniumgridexporter
     environment:
-      - SELENIUM_GRID_URL=http://selenium-router:4444/status  # URL interna del router Selenium
+      - SELENIUM_GRID_URL=http://selenium-router:4444/status  # Cambia este host si es diferente
     ports:
       - "8080:8080"
     networks:
