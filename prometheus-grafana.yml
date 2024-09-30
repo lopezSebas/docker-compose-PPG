@@ -139,9 +139,9 @@ services:
     networks:
       - monitoring
 
-  selenium-grid-exporter:
+  seleniumgridexporter:
     image: lopezsebas/selenium-grid-exporter:latest
-    container_name: selenium-grid-exporter
+    container_name: seleniumgridexporter
     environment:
       - SELENIUM_GRID_URL=http://selenium-router:4444/status  # URL interna del router Selenium
     ports:
