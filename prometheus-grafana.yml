@@ -112,6 +112,8 @@ services:
       - SE_EVENT_BUS_HOST=selenium-event-bus
       - SE_EVENT_BUS_PUBLISH_PORT=4442
       - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+      - SE_NODE_MAX_SESSIONS=7   
+      - SE_NODE_OVERRIDE_MAX_SESSIONS=true
     networks:
       - monitoring
 
@@ -143,7 +145,7 @@ services:
     image: lopezsebas/selenium-grid-exporter:latest
     container_name: seleniumgridexporter
     environment:
-      - SELENIUM_GRID_URL=http://selenium-router:4444/status  # Cambia este host si es diferente
+      - SELENIUM_GRID_URL=http://selenium-router:4444/status  
     ports:
       - "8080:8080"
     networks:
