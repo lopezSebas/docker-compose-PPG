@@ -49,6 +49,8 @@ services:
       - "4442:4442"
       - "4443:4443"
       - "5557:5557"
+    networks:
+      - monitoring
 
   selenium-sessions:
     image: selenium/sessions:4.31.0-20250404
