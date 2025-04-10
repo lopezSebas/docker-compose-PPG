@@ -59,12 +59,16 @@ services:
       - selenium-event-bus
     environment:
       - SE_EVENT_BUS_HOST=selenium-event-bus
+    networks:
+      - monitoring
 
   selenium-session-queue:
     image: selenium/session-queue:4.31.0-20250404
     container_name: selenium-session-queue
     ports:
       - "5559:5559"
+    networks:
+      - monitoring
 
   selenium-distributor:
     image: selenium/distributor:4.31.0-20250404
@@ -79,6 +83,8 @@ services:
       - SE_EVENT_BUS_HOST=selenium-event-bus
       - SE_SESSIONS_MAP_HOST=selenium-sessions
       - SE_SESSION_QUEUE_HOST=selenium-session-queue
+    networks:
+      - monitoring
 
   selenium-router:
     image: selenium/router:4.31.0-20250404
@@ -93,6 +99,8 @@ services:
       - SE_DISTRIBUTOR_HOST=selenium-distributor
       - SE_SESSIONS_MAP_HOST=selenium-sessions
       - SE_SESSION_QUEUE_HOST=selenium-session-queue
+    networks:
+      - monitoring
 
   chrome:
     image: selenium/node-chrome:4.31.0-20250404
@@ -102,6 +110,8 @@ services:
       - selenium-event-bus
     environment:
       - SE_EVENT_BUS_HOST=selenium-event-bus
+    networks:
+      - monitoring
 
   edge:
     image: selenium/node-edge:4.31.0-20250404
@@ -111,6 +121,8 @@ services:
       - selenium-event-bus
     environment:
       - SE_EVENT_BUS_HOST=selenium-event-bus
+    networks:
+      - monitoring
 
   firefox:
     image: selenium/node-firefox:4.31.0-20250404
@@ -119,6 +131,8 @@ services:
       - selenium-event-bus
     environment:
       - SE_EVENT_BUS_HOST=selenium-event-bus
+    networks:
+      - monitoring
       
 networks:
   monitoring:
