@@ -13,8 +13,8 @@ services:
     logging: *default-logging
     volumes:
       volumes:
-      - ./prometheus:/etc/prometheus
-      - prometheus_data:/prometheusdata
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
     ports:
       - 9090:9090
     command:
