@@ -5,8 +5,11 @@ services:
     container_name: prometheus
     volumes:
       - "./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml"
+      - prometheus_data:/prometheus
     ports:
       - 9090:9090
+    command:
+      - "--storage.tsdb.retention.time=2d"
     networks:
       - monitoring
 
@@ -21,6 +24,7 @@ services:
       - GF_SECURITY_ADMIN_PASSWORD=admin
     volumes:
       - ./grafana:/etc/grafana/provisioning/datasources
+      - grafana_data:/var/lib/grafana
     networks:
       - monitoring
 
@@ -139,3 +143,7 @@ services:
 networks:
   monitoring:
     driver: bridge
+    
+volumes:
+  grafana_data:
+  prometheus_data:
