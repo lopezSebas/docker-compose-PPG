@@ -16,7 +16,8 @@ services:
     ports:
       - 9090:9090
     command:
-      - "--storage.tsdb.retention.time=5h"
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.retention.time=1d"
     networks:
       - monitoring
 
