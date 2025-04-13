@@ -12,7 +12,6 @@ services:
     container_name: prometheus
     logging: *default-logging
     volumes:
-      volumes:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
       - prometheus_data:/prometheus
     ports:
