@@ -1,21 +1,30 @@
 version: "3"
+
+x-logging: &default-logging
+  driver: "json-file"
+  options:
+    max-size: "10m"
+    max-file: "3"
+    
 services:
   prometheus:
     image: prom/prometheus
     container_name: prometheus
+    logging: *default-logging
     volumes:
       - "./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml"
       - prometheus_data:/prometheus
     ports:
       - 9090:9090
     command:
-      - "--storage.tsdb.retention.time=2d"
+      - "--storage.tsdb.retention.time=5h"
     networks:
       - monitoring
 
   grafana:
     image: grafana/grafana
     container_name: grafana
+    logging: *default-logging
     ports:
       - 3000:3000
     restart: unless-stopped
@@ -31,6 +40,7 @@ services:
   pushgateway:
     image: prom/pushgateway
     container_name: pushgateway
+    logging: *default-logging
     ports:
       - 9091:9091
     networks:
@@ -39,6 +49,7 @@ services:
   seleniumgridexporter:
     image: lopezsebas/selenium-grid-exporter:latest
     container_name: seleniumgridexporter
+    logging: *default-logging
     environment:
       - SELENIUM_GRID_URL=http://selenium-router:4444/status  
     ports:
@@ -49,6 +60,7 @@ services:
   selenium-event-bus:
     image: selenium/event-bus:4.31.0-20250404
     container_name: selenium-event-bus
+    logging: *default-logging
     ports:
       - "4442:4442"
       - "4443:4443"
@@ -59,6 +71,7 @@ services:
   selenium-sessions:
     image: selenium/sessions:4.31.0-20250404
     container_name: selenium-sessions
+    logging: *default-logging
     ports:
       - "5556:5556"
     depends_on:
@@ -71,6 +84,7 @@ services:
   selenium-session-queue:
     image: selenium/session-queue:4.31.0-20250404
     container_name: selenium-session-queue
+    logging: *default-logging
     ports:
       - "5559:5559"
     networks:
@@ -79,6 +93,7 @@ services:
   selenium-distributor:
     image: selenium/distributor:4.31.0-20250404
     container_name: selenium-distributor
+    logging: *default-logging
     ports:
       - "5553:5553"
     depends_on:
@@ -95,6 +110,7 @@ services:
   selenium-router:
     image: selenium/router:4.31.0-20250404
     container_name: selenium-router
+    logging: *default-logging
     ports:
       - "4444:4444"
     depends_on:
@@ -110,33 +126,39 @@ services:
 
   chrome:
     image: selenium/node-chrome:4.31.0-20250404
+    logging: *default-logging
     platform: linux/amd64
     shm_size: 2gb
     depends_on:
       - selenium-event-bus
     environment:
       - SE_EVENT_BUS_HOST=selenium-event-bus
+      - SE_NODE_MAX_SESSIONS=9
     networks:
       - monitoring
 
   edge:
     image: selenium/node-edge:4.31.0-20250404
+    logging: *default-logging
     platform: linux/amd64
     shm_size: 2gb
     depends_on:
       - selenium-event-bus
     environment:
       - SE_EVENT_BUS_HOST=selenium-event-bus
+      - SE_NODE_MAX_SESSIONS=9
     networks:
       - monitoring
 
   firefox:
     image: selenium/node-firefox:4.31.0-20250404
+    logging: *default-logging
     shm_size: 2gb
     depends_on:
       - selenium-event-bus
     environment:
       - SE_EVENT_BUS_HOST=selenium-event-bus
+      - SE_NODE_MAX_SESSIONS=9
     networks:
       - monitoring
       
