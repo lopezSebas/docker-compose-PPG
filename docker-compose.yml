@@ -17,7 +17,7 @@ services:
       - 9090:9090
     command:
       - "--config.file=/etc/prometheus/prometheus.yml"
-      - "--storage.tsdb.retention.time=1d"
+      - "--storage.tsdb.retention.time=8h"
     networks:
       - monitoring
 
@@ -34,15 +34,6 @@ services:
     volumes:
       - ./grafana:/etc/grafana/provisioning/datasources
       - grafana_data:/var/lib/grafana
-    networks:
-      - monitoring
-
-  pushgateway:
-    image: prom/pushgateway
-    container_name: pushgateway
-    logging: *default-logging
-    ports:
-      - 9091:9091
     networks:
       - monitoring
       
@@ -134,6 +125,12 @@ services:
     environment:
       - SE_EVENT_BUS_HOST=selenium-event-bus
       - SE_NODE_MAX_SESSIONS=9
+      - SE_NODE_OVERRIDE_MAX_SESSIONS=true
+    deploy:
+      resources:
+        limits:
+          cpus: "1.5"
+          memory: 2g
     networks:
       - monitoring
 
